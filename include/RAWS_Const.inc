@@ -1,67 +1,46 @@
+#if defined _raws_const_included
+    #endinput
+#endif
+
+#define _raws_const_included
+
+#define raws_init_debug()          !_debug && (_debug = (plugin_flags() & AMX_FLAG_DEBUG) ? 1 : 0)
+
 /*
-    RAWS + AMXX
-*/
+ * LOAD FILE TYPE
+ * 0 - Сам открывает файл (fopen()) и возвращает index
+ * 1 - Просто возвращает путь для открытия файла
+ */
 
-#define is_str_empty(%0)        bool:(%0[0] == EOS)
-#define is_str_comment(%0)		bool:( (%0[0] == '/' && %0[1] == '/') || %0[0] == ';')
+enum _:
+{   LFT_TYPE_MANUAL = 0, 
+    LFT_TYPE_DIR
+};
 
-
-enum _:BOUNDS
+enum _:SCREEN_POSITION
 {
-	MIN = 0,
-	MAX
+    Float:X,
+    Float:Y
 };
 
 enum _:WORLD_POSITION
 {
-	Float:X,
-	Float:Y,
-	Float:Z
+    Float:X,
+    Float:Y,
+    Float:Z
 };
 
-enum _:VALUE_CHANGE
-{
-	VC_ADD,
-	VC_TAKE,
-	VC_SET,
-	MULT,
-}
+stock const raws_folder[]               = "RAWS";
+stock const raws_folder_base[]          = "addons/amxmodx/configs/RAWS";
+stock const amxx_folder_base[]          = "addons/amxmodx/configs";
 
-enum _:TIME_NAMES
-{
-	SECONDS,
-	MINUTES,
-	HOURS
-};
+stock const classname_breakable[]       = "func_breakable";
 
+stock _debug;
 
+/* HL Game Events */
+const _MSGID_Money                      = 102; //get_user_msgid("Money")
 
-stock const creator_prefix[]                        = "RAWS";
-stock const creator_name[]							= "ISellGarage";
-
-stock const fmt_seconds[][16] 	= {"секунд", "секунда", "секунды"};
-stock const fmt_minutes[][16] 	= {"минут",  "минута",  "минуты"};
-stock const fmt_hours[][16]		= {"часов",  "час",     "часы"};
-
-const MESSAGE_MONEY									= 102;
-
-const LEN_MAX_KEY									= 16;
-const LEN_MAX_NAME                                  = 32;
-const LEN_MAX_STRING_SMALL							= 32;
-const LEN_MAX_STRING_SHORT							= 64;
-const LEN_MAX_STRING_NORMAL							= 128;
-const LEN_MAX_STRING_BIG							= 256;
-const LEN_MAX_STRING_EXTRA							= 512;
-const LEN_MAX_PATH                                  = 192;
-const LEN_MAX_RESOURCE_PATH							= 256;
-const LEN_MAX_MENU_TITLE							= 192;
-const LEN_MAX_MENU_ITEM								= 192;
-const LEN_MAX_MENU_KEY								= 16;
-
-stock const server_folder_configs[]                 = "addons/amxmodx/configs";
-stock const server_folder_models[]                  = "models";
-
-const raws_teams = 4;
-
-stock const raws_team_names[raws_teams][] = {"TEAM_UNASSIGNED", "TEAM_TERRORIST", "TEAM_CT", "TEAM_SPECTATOR"};
-stock const Float:raws_team_colors[raws_teams][3] = { {0.0, 0.0, 0.0}, {200.0, 0.0, 0.0}, {0.0, 0.0, 200.0}, {0.0, 0.0, 0.0} };
+/* Lens for array */
+const LEN_MAX_PATH                      = 256; //full_path[LEN_MAX_PATH]
+const LEN_MAX_NAME                      = 32; 
