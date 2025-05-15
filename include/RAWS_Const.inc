@@ -30,6 +30,13 @@ enum _:WORLD_POSITION
     Float:Z
 };
 
+enum _:COLORS 
+{
+    R,
+    G,
+    B
+};
+
 stock const raws_folder[]               = "RAWS";
 stock const raws_folder_base[]          = "addons/amxmodx/configs/RAWS";
 stock const amxx_folder_base[]          = "addons/amxmodx/configs";
@@ -39,7 +46,8 @@ stock const classname_breakable[]       = "func_breakable";
 stock _debug;
 
 /* HL Game Events */
-const _MSGID_Money                      = 102; //get_user_msgid("Money")
+const _MSGID_Money                      = 102;  //get_user_msgid("Money")
+const _MSGID_ScreenFade                 = 98;   //get_user_msgid("ScreenFade")
 
 /* Lens for array */
 const LEN_MAX_PATH                      = 256; //full_path[LEN_MAX_PATH]

@@ -170,3 +170,35 @@ stock plugin_notification(const name[], const version[], const author[], const U
     server_print("--------------------");
     server_print("");
 }
+
+/* Used code */
+/* https://amx-x.ru/viewtopic.php?p=292355 */
+stock send_screen_fade(id, color[COLORS] = {0, 0, 0}, Float:flFxTime = 1.0, Float:flHoldTime = 1.0, alpha = 0)
+{
+    const FFADE_IN = 0x0000;
+    message_begin(MSG_ONE_UNRELIABLE, _MSGID_ScreenFade, .player = id)
+    /* message_begin(MSG_ONE, _MSGID_ScreenFade, .player = id); */
+    write_short(FixedUnsigned16(flFxTime, 1<<12));
+    write_short(FixedUnsigned16(flHoldTime, 1<<12));
+    write_short(FFADE_IN);
+    write_byte(color[R]);
+    write_byte(color[G]);
+    write_byte(color[B]);
+    write_byte(alpha);
+    message_end();
+}
+
+stock FixedUnsigned16(Float:flValue, iScale)
+{
+    new iOutput
+
+    iOutput = floatround(flValue * iScale)
+
+    if(iOutput < 0)
+        iOutput = 0
+
+    if(iOutput > 0xFFFF)
+        iOutput = 0xFFFF
+
+    return iOutput
+}
