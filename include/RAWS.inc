@@ -50,9 +50,6 @@ stock is_origin_null(const Float:origin[WORLD_POSITION] = {0.0, 0.0, 0.0})
     return 0;
 }
 
-
-
-
 /**
  * Выводит в консоль информацию об плагине
  *
