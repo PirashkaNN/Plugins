@@ -32,7 +32,6 @@ new event_timer                         = 0; //Длительность ивен
 new event_weapon                        = 0; //Какое оружие будет использоваться в ивенте
 new event_bonus                         = 0; //Какая награда при убийстве с бонусного оружия
 
-
 new event_message_up[128]               = EOS; //Сообщение, первая часть
 new event_message_down[128]             = EOS; //Сообщение, вторая часть
 
@@ -63,7 +62,6 @@ public plugin_init()
 	RegisterHookChain(RG_CBasePlayer_Killed, "@CBasePlayer_Killed", true);
 
 	register_clcmd("drop", "_CmdHookDrop");
-	register_clcmd("drop", "_CmdHookDrop");
 
 	set_task(cvar_time_repeat, "task_create_event", TASKID_ACTIVE_EVENT);
 }
@@ -87,20 +85,15 @@ public task_create_event()
 		return PLUGIN_HANDLED;
 	}
 
-	new array_size = ArraySize(list_weapon);
-	event_weapon = random(array_size) - 1;
+	new array_size = ArraySize(list_weapon_names);
+	event_weapon = random(array_size);
 	event_bonus = random_num(1, 3);
 
 	event_timer = cvar_event_time;
 
 	event_active = 1;
 
-	new weapon_name[64];
-	if(ArrayGetString(list_weapon_names, event_weapon, weapon_name, charsmax(weapon_name)))
-	{
-		formatex(event_message_up, charsmax(event_message_up), "Доступно бонусное оружие!^nВ этот раз выпал: %s", weapon_name)
-		formatex(event_message_down, charsmax(event_message_down), "Чтобы использовать нажмите: ^4[G]^nОсталось времени: %dс", event_timer);
-	}
+	
 
 	set_task(1.0, "task_event_timer", TASKID_TIMER_EVENT, .flags = "b");
 
@@ -116,10 +109,16 @@ public task_event_timer()
 		remove_task(TASKID_TIMER_EVENT);
 
 		set_task(cvar_time_repeat, "task_create_event", TASKID_ACTIVE_EVENT);
-		return PLUGIN_HANDLED;
+		return PLUGIN_CONTINUE;
 	}
 
 	event_timer -= 1;
+
+	new weapon_name[64];
+	ArrayGetString(list_weapon_names, event_weapon, weapon_name, charsmax(weapon_name));
+
+	formatex(event_message_up, charsmax(event_message_up), "Доступно бонусное оружие!^nВ этот раз выпал: %s", weapon_name)
+	formatex(event_message_down, charsmax(event_message_down), "Чтобы использовать нажмите: ^4[G]^nОсталось времени: %dс", event_timer);
 		
 	set_hudmessage(250, 100, 0, -0.98, -0.66, 0, 6.00, 1.00, 0.20, 0.60);
 	show_hudmessage(0, event_message_up);
@@ -127,19 +126,24 @@ public task_event_timer()
 	set_hudmessage(250, 100, 0, -0.98, -0.62, 0, 6.00, 1.00, 0.20, 0.60);
 	show_hudmessage(0, event_message_down);
 
-	return PLUGIN_CONTINUE;
+	return PLUGIN_HANDLED;
 }
 
 public _CmdHookDrop(id)
 {
-	if(!event_active)
+	if(!is_user_Alive(id))
 	{
 		return PLUGIN_HANDLED;
+	}
+	
+	if(!event_active)
+	{
+		return PLUGIN_CONTINUE;
 	}
 
 	if(list_weapon == Invalid_Array)
 	{
-		return PLUGIN_HANDLED;
+		return PLUGIN_CONTINUE;
 	}
 
 	user_event_weapon[id] = 1;
