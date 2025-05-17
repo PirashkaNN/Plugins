@@ -11,7 +11,7 @@ stock raws_create_file(const path[], const Array:array)
 {
     if(array == Invalid_Array)
     {
-        _debug && log_amx("[%s] Not create file %s. Array invalid", raws_include);
+        _debug && log_amx("[%s] Not create file. Array invalid", raws_include);
         return 0;
     }    
 
@@ -22,8 +22,6 @@ stock raws_create_file(const path[], const Array:array)
     }
 
     new file = fopen(path, "w");
-
-    server_print("Full path: %s", path)
 
     fputs(file, "; The file was created using the RAWS include.^n^n");
 
@@ -39,6 +37,8 @@ stock raws_create_file(const path[], const Array:array)
 			write_file(path, buffer);
 		}
     }
+
+    return 1;
 }
 
 /**
