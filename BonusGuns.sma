@@ -91,9 +91,7 @@ public task_create_event()
 
 	event_timer = cvar_event_time;
 
-	event_active = 1;
-
-	
+	event_active = 1;	
 
 	set_task(1.0, "task_event_timer", TASKID_TIMER_EVENT, .flags = "b");
 
@@ -135,7 +133,7 @@ public _CmdHookDrop(id)
 	{
 		return PLUGIN_HANDLED;
 	}
-	
+
 	if(!event_active)
 	{
 		return PLUGIN_CONTINUE;

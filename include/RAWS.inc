@@ -80,8 +80,6 @@ stock raws_load_file(const filename[], const type = 0, buffer[] = "", len)
                 return 0;
             }
 
-            server_print("FILE INDEX = %d", file);
-
             //not closed?
             return file;
         }
