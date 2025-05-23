@@ -17,27 +17,24 @@ new cvar_show_message, show_message;
 new cvar_show_info, show_info;
 new cvar_show_info_time, Float:show_info_time;
 
-public plugin_precache()
-{
-
-}
-
 public plugin_init()
 {
     register_plugin(plugin_name, plugin_version, plugin_author);
+
+    for(new i; i < sizeof(cmds_rs); i++)
+    {
+        register_clcmd(cmds_rs[i], "_CmdResetScore");
+    }
 
     cvar_sound_effect       = create_cvar("rs_sound_effect",    "1",     _, "Use sound effect?");
     cvar_show_message       = create_cvar("rs_show_message",    "1",     _, "Show message reset?");
     cvar_show_info          = create_cvar("rs_show_info",       "1",     _, "Show plugin information");
     cvar_show_info_time     = create_cvar("rs_show_info_time",  "120.0", _,"Time show information");
 
-    /* register_clcmd("say /rs", "_CmdResetScore"); */
-
-    for(new i; i < sizeof(cmds_rs); i++)
-    {
-        register_clcmd(cmds_rs[i], "_CmdResetScore");
-    }
-    
+    sound_effect = get_pcvar_num(cvar_sound_effect);
+    show_message = get_pcvar_num(cvar_show_message);
+    show_info = get_pcvar_num(cvar_show_info);
+    show_info_time = get_pcvar_float(cvar_show_info_time);
 
     if(show_info)
     {
@@ -45,18 +42,10 @@ public plugin_init()
     }
 }
 
-public plugin_cfg()
-{
-    sound_effect = get_pcvar_num(cvar_sound_effect);
-    show_message = get_pcvar_num(cvar_show_message);
-    show_info = get_pcvar_num(cvar_show_info);
-    show_info_time = get_pcvar_float(cvar_show_info_time);
-}
-
 public task_show_info()
 {
-    client_print_color(0, print_team_default, "^1[^3%s^1] Вы можете сбросить свой счёт командами:");
-    client_print_color(0, print_team_default, "^1[^3%s^1] ^4/rs^1, ^4/resetscore^1, ^4rs ^1и их ошибочными вариантами!");
+    client_print_color(0, print_team_default, "^1[^3%s^1] Вы можете сбросить свой счёт командами:", plugin_name);
+    client_print_color(0, print_team_default, "^1[^3%s^1] ^4/rs^1, ^4/resetscore^1, ^4rs ^1и их ошибочными вариантами!", plugin_name);
 }
 
 public _CmdResetScore(id)
