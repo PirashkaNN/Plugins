@@ -77,5 +77,7 @@ stock resetscore(const id)
     {
         client_print_color(id, print_team_default, "^1[^3%s^1] %n, вы успешно сбросили ваш счёт!", plugin_name, id);
     }
+
+    return 1;
 }
 

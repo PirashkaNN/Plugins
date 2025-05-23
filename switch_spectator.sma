@@ -40,7 +40,7 @@ stock switch_spectator(const id)
         {
             new team_random = random_num(1, 2);
             rg_set_user_team(id, team_random, MODEL_AUTO, true, true);
-            
+
             rg_round_respawn(id);
         }
         case TEAM_TERRORIST..TEAM_CT:
@@ -48,4 +48,6 @@ stock switch_spectator(const id)
             rg_set_user_team(id, TEAM_SPECTATOR, MODEL_AUTO, true, true);
         }
     }
+
+    return 1;
 }
